@@ -1,6 +1,11 @@
 package my.app.models;
 
+
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -9,9 +14,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty(message = "Email is required")
+    @Email(message = "Invalid email")
     @Column(name = "email")
     private String email;
 
+    @NotEmpty(message = "Password is required")
+    @Size(min = 3, max = 5, message = "Password length must be between 3 and 5 characters")
     @Column(name = "password")
     private String password;
 
