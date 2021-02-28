@@ -38,6 +38,10 @@
                         </form>
                     </td>
                 </tr>
+
+                <tr th:if="${!usersExist}">
+                    <td colspan="3">No Users Found in Database!</td>
+                </tr>
             </tbody>
         </table>
     </body>

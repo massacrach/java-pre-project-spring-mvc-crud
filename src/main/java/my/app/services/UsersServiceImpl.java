@@ -3,6 +3,7 @@ package my.app.services;
 import my.app.dao.UsersDao;
 import my.app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class UsersServiceImpl implements UsersService {
     private UsersDao usersDao;
 
     @Autowired
+    @Qualifier("UsersDaoMysqlImpl")
     public void setUsersDao(UsersDao usersDao) {
         this.usersDao = usersDao;
     }
@@ -22,7 +24,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUser(long id) {
         return usersDao.getUser(id);
     }
 
@@ -32,7 +34,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(long id) {
         usersDao.deleteUser(id);
     }
 

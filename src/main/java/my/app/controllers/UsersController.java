@@ -25,6 +25,7 @@ public class UsersController {
     public String index(Model model) {
         List<User> users = usersService.getUsers();
         model.addAttribute("users", users);
+        model.addAttribute("usersExist", users.size() > 0);
 
         return "users/index";
     }
@@ -35,27 +36,29 @@ public class UsersController {
     }
 
     @PostMapping()
-    public String store(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String store(@ModelAttribute("user") @Valid User user,
+                        BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             return "users/create";
         }
-        System.out.println(bindingResult.hasErrors());
+
         usersService.createUser(user);
 
         return "redirect:/users";
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser(Model model, @PathVariable("id") int id) {
+    public String editUser(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", usersService.getUser(id));
 
         return "users/edit";
     }
 
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user,
-                             @PathVariable("id") int id,
-                             BindingResult bindingResult) {
+    public String updateUser(@ModelAttribute("user") @Valid User user,
+                             BindingResult bindingResult,
+                             @PathVariable("id") long id) {
 
         if (bindingResult.hasErrors()) {
             return "users/edit";
@@ -68,7 +71,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deleteUser(@PathVariable("id") long id) {
         usersService.deleteUser(id);
 
         return "redirect:/users";
